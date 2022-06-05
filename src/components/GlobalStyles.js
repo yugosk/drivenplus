@@ -49,6 +49,9 @@ table {
 * {
 	box-sizing: border-box;
 }
+.react-icons{
+	vertical-align: middle;
+}
 `
 
 export default GlobalStyled;

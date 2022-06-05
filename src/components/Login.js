@@ -21,7 +21,7 @@ export default function Login() {
         if (regEmail.test(userData.email) && userData.password !== "") {
             const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/login", userData);
             promise.then(response => {
-                setToken(response.data.token);
+                setToken(response.data);
                 if (response.data.membership === null) {
                     navigate("/subscriptions");
                 } else {

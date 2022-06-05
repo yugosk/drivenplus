@@ -6,6 +6,7 @@ import SignUp from "./SignUp";
 import Login from "./Login";
 import SubscriptionsList from "./SubscriptionsList";
 import SingleSubscription from "./Subscription";
+import Home from "./Home";
 
 export default function App() {
     const [token, setToken] = useState({});
@@ -18,6 +19,7 @@ export default function App() {
                     <Route path="/signup" element={<SignUp />} />
                     <Route exact path="/subscriptions" element={<SubscriptionsList />} />
                     <Route path="/subscriptions/:idPlano" element={<SingleSubscription />} />
+                    <Route path="/home" element={<Home />} />
                 </Routes>
                 <GlobalStyled />
             </BrowserRouter>

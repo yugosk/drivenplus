@@ -11,12 +11,11 @@ export default function SubscriptionsList() {
     useEffect(() => {
         const promise = axios.get("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships", {
             headers: {
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token.token}`
             }
         });
         promise.then(response => {
             setSubList(response.data);
-            console.log(subList);
         });
     }, []);
 
@@ -38,7 +37,7 @@ function Subscription({ image, price, id }) {
     return (
         <Link style={{textDecoration: 'none'}} to={`/subscriptions/${id}`}>
             <StyledSubscription>
-                <img src={image} />
+                <img src={image} alt="" />
                 <p>{formatPrice(price)}</p>
             </StyledSubscription>
         </Link>
