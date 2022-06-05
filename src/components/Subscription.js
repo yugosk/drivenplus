@@ -9,7 +9,7 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import { AiFillCloseSquare } from "react-icons/ai";
 
 export default function SingleSubscription() {
-    const { token } = useContext(UserContext);
+    const { token, setToken } = useContext(UserContext);
     const { idPlano } = useParams();
     const [confirm, setConfirm] = useState(false);
     const [sub, setSub] = useState({});
@@ -37,10 +37,6 @@ export default function SingleSubscription() {
         promise.catch(err => console.log(err.response.data));
     }, []);
 
-    function formatPrice(str) {
-        return `R$ ${str.slice(0,2)},${str.slice(-2)}`
-    }
-
     function confirmSubmit(e) {
         e.preventDefault();
         const numberRegex = /\b(?:\d{4}[ -]?){3}(?=\d{4}\b)(?:\d{4})/;
@@ -62,7 +58,10 @@ export default function SingleSubscription() {
                 "Authorization": `Bearer ${token.token}`
             }
         });
-        promise.then(() => navigate("/home"));
+        promise.then(response => {
+            setToken({...token, membership: response.data});
+            navigate("/home");
+        });
         promise.catch(err => console.log(err));
     }
 
@@ -112,7 +111,7 @@ export default function SingleSubscription() {
                 <h2>Preço:</h2>
             </PerksTitle>
             <PerksList>
-                <p>{sub.price} cobrados mensalmente</p>
+                <p>R$ {sub.price} cobrados mensalmente</p>
             </PerksList>
             <CardForm onSubmit={confirmSubmit}>
                 <input
@@ -164,33 +163,7 @@ export default function SingleSubscription() {
         </ModalContainer>
         </>
     
-    )
-        return (
-            <>
-            <SingleSubContainer filter={confirm ? "0.7" : "1"}>
-                <PerksList>
-                    {sub.perks.map((perk, index) => {
-                        return (
-                            <p key={index}>{index+1}. {perk.title}</p>
-                        )
-                    })}
-                </PerksList>
-
-            </SingleSubContainer>
-            <ModalContainer display={confirm ? "flex" : "none"}>
-                <ModalIcons onClick={() => setConfirm(false)} >
-                    <AiFillCloseSquare color="#ffffff" size={"28px"} />
-                </ModalIcons>
-                <StyledModal>
-                    <p>Tem certeza que deseja assinar o plano DrivenPlus (R$ 39,99)?</p>
-                    <ModalButtons>
-                        <div onClick={() => setConfirm(false)}>Não</div>
-                        <button onClick={submitPurchase}>SIM</button>
-                    </ModalButtons>
-                </StyledModal>
-            </ModalContainer>
-            </>
-        );      
+    );     
 }
 
 const ModalContainer = styled.div`
@@ -375,7 +348,7 @@ const SubImage = styled.div`
     }
 `
 
-const TopButtons = styled.div`
+export const TopButtons = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;

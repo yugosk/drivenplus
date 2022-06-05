@@ -26,7 +26,7 @@ export default function Home() {
         <HomeContainer>
             <HomeHeader>
                 <img src={token.membership.image} />
-                <div>
+                <div onClick={() => navigate(`/users/${token.id}`)}>
                     <IoPersonCircle color="#ffffff" size={"34px"} />
                 </div>
             </HomeHeader>
